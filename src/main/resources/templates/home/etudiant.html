@@ -1,0 +1,45 @@
+<html>
+
+<head>
+
+	<link rel="stylesheet" th:href="@{css/bootstrap.css}" />
+	<link rel="stylesheet" th:href="@{main.css}" />
+
+</head>
+
+
+
+<body>
+
+<img th:src="@{images/central.png}" width= ="18%"/>
+
+	<h1 align="center">Liste des Etudiants de la formation</h1>
+	<h2 align="center">Formation PNUD</h2>
+
+pour ajouter un etudiant cliqier ici <a class="btn btn-primary" th:href="@{/add}">cliquer </a>
+
+<br/><br/>
+
+	<table class="table table-striped" border="1" align="center">
+
+		<tr>
+			<th>nom</th>
+			<th>age</th>
+			<th>email</th>
+			<th>adresse</th>
+			<th>tel</th>
+		<tr th:each="student:${students}">
+			<td th:text="${student.nom}"></td>
+			<td th:text="${student.age}"></td>
+			<td th:text="${student.email}"></td>
+			<td th:text="${student.adresse}"></td>
+			<td th:text="${student.tel}"></td>
+		</tr>
+	</table>
+
+
+
+
+</body>
+
+</html>
