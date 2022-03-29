@@ -28,13 +28,18 @@ pour ajouter un etudiant cliqier ici <a class="btn btn-primary" th:href="@{/add}
 			<th>email</th>
 			<th>adresse</th>
 			<th>tel</th>
+			<th>supprimer</th>
+			<th>modifier</th>
 		<tr th:each="student:${students}">
 			<td th:text="${student.nom}"></td>
 			<td th:text="${student.age}"></td>
 			<td th:text="${student.email}"></td>
 			<td th:text="${student.adresse}"></td>
 			<td th:text="${student.tel}"></td>
+			<td>  <a class="btn btn-danger"th:href="@{/delete/{email}(email=${student.email})}">supprimer </a></td>
+			<td> <a class="btn btn-warning" th:href="@{/modifier/{email}(email=${student.email})}">Modifier </a></td>
 		</tr>
+		
 	</table>
 
 

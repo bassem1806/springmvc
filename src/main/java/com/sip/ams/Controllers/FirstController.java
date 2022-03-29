@@ -5,15 +5,30 @@ import java.util.ArrayList;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sip.ams.Entities.Etudiant;
 
 @Controller
 public class FirstController {
 	
+	static ArrayList<Etudiant> students = new ArrayList<Etudiant>();
 	
-	private Model e;
+	static {
+		
+		
+		students.add(new Etudiant("bassem" ,"22","bendhief.b@gmail.com" ,"20389326",  "8 rue de mahrajane"));
+		students.add(new Etudiant( "aymen" ,"65","aymen.b@gmail.com" ,"25698632",  "100 rue de mahrajane"));
+		students.add( new Etudiant("hassen" ,"35","hassen.b@gmail.com" ,"25698632",  "98 rue de mahrajane"));
+		
+	}
+	
+
 
 
 	@RequestMapping("/first")
@@ -42,54 +57,82 @@ public class FirstController {
 		@RequestMapping("/list")
 		public String etudiants(Model e) {
 			
-			
-										
-			ArrayList<Etudiant> students = new ArrayList<Etudiant>();
-			students.add(new Etudiant("bassem" ,"22","bendhief.b@gmail.com" ,"20389326",  "8 rue de mahrajane"));
-			students.add(new Etudiant( "aymen" ,"65","aymen.b@gmail.com" ,"25698632",  "100 rue de mahrajane"));
-			students.add( new Etudiant("hassen" ,"65","aymen.b@gmail.com" ,"25698632",  "98 rue de mahrajane"));
-			
+						
 		
-			e.addAttribute("students", students);
-		
-			
-			
-	/*		
-		String nom ="bassem ben dhief";
-		String age = "33";
-		String email= "ben dhief.b@gmail.com";
-		String tel= "20389323";
-		String adresse= "8 rue de caire sité mahrajane ben arous";
-		
-		
-	
-		e.addAttribute( "name",nom);
-		e.addAttribute( "Age",age);
-		e.addAttribute( "Email",email);
-		e.addAttribute( "Tel",tel);
-		e.addAttribute( "Adresse",adresse);
-		*/
-		
-			
-			
+			e.addAttribute("students", students);		
+				
 			return "/home/etudiant";
-			
-			
-		
-		
 		
 	}
 		
 		
 		
 		@RequestMapping("/add")
-		public String addEtudiants() {
+		public String addEtudiants(Model e) {
 	
 			return "/home/addstudent";
 			
 		}
 	
+		
+		//methode save ajout
+		
+		
+		
+		@PostMapping("/save")
+	//	@ResponseBody
+		public String saveEtudiants(@RequestParam("nom")String nom,
+				@RequestParam("age")String age,	
+				@RequestParam("email")String email,
+				@RequestParam("tel")String tel,
+				@RequestParam("adresse")String adresse
+				
+				) 
+		{
 	
+		
+			
+			Etudiant temp = new Etudiant(nom,age,email,tel,adresse);
+			students.add(temp);
+			return  "redirect:list";
+		
+			
+		}
+		
+		//methode delete
+		
+		@GetMapping("/delete/{email}")
+	//	@ResponseBody
+		public String deleteEtudiants(@PathVariable ("email") String mail ) {
 	
+			
+			Etudiant temp = null;
+			for(Etudiant e : students) 
+			
+			{
+			if(e.getEmail().equals(mail))	
+			{temp =e;
+			}
+				
+			}
+			students.remove(temp);
+			return "redirect:../list";
+			
+		}
+		
+		
+		//methode modifier
+		
+	//methode delete
+		
+		@GetMapping("/modifier/{email}")
+		@ResponseBody
+		public String modifierEtudiants(@PathVariable ("email") String mail ) {
+	
+			return "email :"+mail;
+			
+		}
+	
+
 
 }
